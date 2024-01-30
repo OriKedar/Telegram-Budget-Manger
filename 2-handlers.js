@@ -129,9 +129,8 @@ const endExpenseConversation = function(bot, fullPayload, message) {
   var category = fullPayload.data.find(item => item.type === 'category')?.value || '';
   var method = fullPayload.data.find(item => item.type === 'method')?.value || '';
   var source = fullPayload.data.find(item => item.type === 'source')?.value || '';
-  var payer = message.chat.first_name;
 
-  addNewExpenseRow(reason, amount, category, method, source, payer, chat_id);
+  addNewExpenseRow(reason, amount, category, method, source, chat_id);
   bot.sendMessageToActiveUser(chat_id, `Thank you for adding expense for ${reason}`);
 }
 

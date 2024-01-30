@@ -1,8 +1,3 @@
-/**
- * based on https://github.com/fmiccolis/GAS-conversational-telegram-bot/blob/main/README.md
- * In case of any update, create new deploy, update the webAppId an run the script "initializeBot"
- */
-
 class TelegramBot {
   constructor(token, webAppId, spreadsheetId, bankspreadsheetId, devList, activeUsers) {
     this.token = token;

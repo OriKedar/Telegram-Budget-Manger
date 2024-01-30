@@ -103,17 +103,17 @@ function createArrayfromRange(user_id, name) {
   return arr;
 }
 
-function addNewExpenseRow(reason, amount, category, method, source, payer, user_id){
+function addNewExpenseRow(reason, amount, category, method, source, user_id){
   const sheet = getSheetByName(user_id, 'Raw');
   let date = new Date();
-  let newRow = [date, reason, parseFloat(amount), category, method, source, payer]; 
+  let newRow = [date, reason, parseFloat(amount), category, method, source]; 
   sheet.appendRow(newRow);
 }
 
 function addMonthlyPayments(user_id){
     let fullSheet = getSheetDataByName(user_id, 'Monthly');
     for (const elment of fullSheet.slice(1)){
-      addNewExpenseRow(elment[0], elment[1], elment[2], elment[3], elment[4], elment[5], user_id)
+      addNewExpenseRow(elment[0], elment[1], elment[2], elment[3], elment[4], user_id)
     }
 }
 
