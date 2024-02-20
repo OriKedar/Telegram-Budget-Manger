@@ -91,11 +91,11 @@ function isValidDate(date) {
 }
 
 function getMonthlyBudget(user_id){
-  const monthlyBudget = getRangeByName(user_id, 'monthlyBudget');
+  const monthlyBudget = getRangeByName(user_id, 'monthlyBuget');
   return monthlyBudget[0][0];
 }
 
-function createArrayFromRange(user_id, name) {
+function createArrayfromRange(user_id, name) {
   const rawList = getRangeByName(user_id, name);
   var arr
   arr = rawList.filter(item => item[0] !== '');
@@ -112,12 +112,12 @@ function addNewExpenseRow(reason, amount, category, method, source, user_id){
 
 function addMonthlyPayments(user_id){
     let fullSheet = getSheetDataByName(user_id, 'Monthly');
-    for (const element of fullSheet.slice(1)){
-      addNewExpenseRow(element[0], element[1], element[2], element[3], element[4], user_id)
+    for (const elment of fullSheet.slice(1)){
+      addNewExpenseRow(elment[0], elment[1], elment[2], elment[3], elment[4], user_id)
     }
 }
 
-function monthlyPaymentToUniqueUsers(){
+function monthlyPaymentToUniqUsers(){
   let usersList = filterDuplicateSheets(getAllUsersData());
       usersList.forEach((elem) => addMonthlyPayments(elem[1]))
 }

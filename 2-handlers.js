@@ -13,9 +13,9 @@ const REGISTER_CONVERSATION = Object.freeze({
 });
 
 
-const start = function(bot, params, message) {
-  bot.sendMessageToActiveUser(message.chat.id, "Hi " + message.from.first_name + "!\nThis is the starting message from the bot, what do you want to do?\n/expense To add new expense \n/thisWeek To see this week expense and balance \n/thisMonth To see this month expense and balance\n/help To see all the commands available use");
-}
+// const start = function(bot, params, message) {
+//   bot.sendMessageToActiveUser(message.chat.id, "Hi " + message.from.first_name + "!\nThis is the starting message from the bot, what do you want to do?\n/expense To add new expense \n/thisWeek To see this week expense and balance \n/thisMonth To see this month expense and balance\n/help To see all the commands available use");
+// }
 
 const help = function(bot, params, message) {
   var command_descriptions = "Hi " + message.from.first_name + "!\nThis is the list of commands you can use with this bot\n\n";
@@ -46,27 +46,33 @@ const cancel = function(bot, conversation_data, message) {
 
 const newUser = function(bot, params, message) {
   var chat_id = message.chat.id;
-  bot.sendMessage(chat_id, "Welcome to the expense bot!\nTo start use the bot please send me the link to your spreadsheet\nTo cancel just use /cancel ")
+
+  // if(isUserExsists(chat_id)){
+  //   bot.sendMessage(chat_id, "You are alrady registed, If you have any quistion send message to the admins")
+  //   if(typeof conversation_data === 'object' && conversation_data !== null) {
+  //    bot.deleteConversation(conversation_data);
+  //   }
+  //   return REGISTER_CONVERSATION.END
+  // } else {
+  bot.sendMessage(chat_id, "Welcome to the expense bot!\nTo start use the bot please send me the link to your spreedsheet\nTo cancel just use /cancel ")
   return REGISTER_CONVERSATION.ADD_SS
+  // }
 }
 
 const addSs = function(bot, conversation_data, message) {
   var chat_id = conversation_data.chat_id;
   var url = message.text;
   let parsedSsid = extractSsidFromUrl(url) || `full Url: ${url}`;
-  if(isUserExists(chat_id)){
-    bot.sendMessage(chat_id, "We are working on it, If you have any question send message to the admins")
-    if(typeof conversation_data === 'object' && conversation_data !== null) {
-     bot.deleteConversation(conversation_data);
-    }
-  } else if(isSsIdExists(parsedSsid)){
-    bot.sendMessageToDevs(`Hi Ori, new register request from user:\n ${message.from.id} ${message.from.first_name} is trying to register with an existing SSID:\n ${parsedSsid}`)
-    bot.sendMessage(chat_id, 'Thank you for registering! \nWe will update you!')
+  if(isSsIdExsists(parsedSsid)){
+    bot.sendMessageToDevs(`New register request from user:\n ${message.from.id} ${message.from.first_name} is trying to register with an exsisting SSID:\n ${parsedSsid}`)
+    bot.sendMessage(chat_id, 'Thank you for registering! \nWe will update you soon!')
     registerNewUser(message.from.first_name, chat_id, parsedSsid);
     return REGISTER_CONVERSATION.END
   } else {
-    bot.sendMessage(chat_id, 'Thank you for registering, We will process your request and update you!')
     registerNewUser(message.from.first_name, chat_id, parsedSsid);
+    bot.sendMessage(chat_id, 'Thank you for registering, We will process your request and update you!')
+    bot.sendMessageToDevs(`Hi Ori, new valid register from ${message.from.first_name} was added to list`)
+
     return REGISTER_CONVERSATION.END
   }
 }
@@ -74,7 +80,6 @@ const addSs = function(bot, conversation_data, message) {
 const endRegisterConversation = function(bot, conversation_data, message){
   var chat_id = message.chat.id;
   var name = message.chat.first_name;
-  bot.sendMessageToDevs(`Hi Ori, new valid register from ${message.from.first_name} was added to list`)
 }
 
 const newExpense = function(bot, params, message) {
@@ -97,21 +102,21 @@ const addAmount = function(bot, conversation_data, message) {
     return EXPENSE_CONVERSATION.ADD_AMOUNT;
   }
   bot.sendMessageToActiveUser(chat_id, "Amount saved.\nPlease choose the category of the expense" 
-  ,bot.addReplyKeyboardMarkup(createArrayFromRange(chat_id, 'expensesCategorys')));
+  ,bot.addReplyKeyboardMarkup(createArrayfromRange(chat_id, 'expensesCategorys')));
   return EXPENSE_CONVERSATION.ADD_CATEGORY;
 }
 
 const addCategory = function (bot, conversation_data, message) {
   var chat_id = conversation_data.chat_id;
   bot.sendMessageToActiveUser(chat_id, "Category saved!", bot.addReplyKeyboardRemove());
-  bot.sendMessageToActiveUser(chat_id, "Please choose the payment method that you used", bot.addReplyKeyboardMarkup(createArrayFromRange(chat_id, 'paymentTypes')));
+  bot.sendMessageToActiveUser(chat_id, "Please choose the payment method that you used", bot.addReplyKeyboardMarkup(createArrayfromRange(chat_id, 'paymentTypes')));
   return EXPENSE_CONVERSATION.ADD_METHOD;
 }
 
 const addMethod = function(bot, conversation_data, message) {
   var chat_id = conversation_data.chat_id;
   bot.sendMessageToActiveUser(chat_id, "Payment method saved!", bot.addReplyKeyboardRemove());
-  bot.sendMessageToActiveUser(chat_id, "Please choose the source", bot.addReplyKeyboardMarkup(createArrayFromRange(chat_id, 'paymentSources')));
+  bot.sendMessageToActiveUser(chat_id, "Please choose the source", bot.addReplyKeyboardMarkup(createArrayfromRange(chat_id, 'paymentSources')));
   return EXPENSE_CONVERSATION.ADD_SOURCE;
 }
 

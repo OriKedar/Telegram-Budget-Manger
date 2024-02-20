@@ -1,19 +1,18 @@
 class TelegramBot {
-  constructor(token, webAppId, spreadsheetId, bankspreadsheetId, devList, activeUsers) {
+  constructor(token, webAppId, spreadsheetId, 
+  devList, 
+  ) {
     this.token = token;
     this.telegramUrl = "https://api.telegram.org/bot" + token;
     this.fileTelegramUrl = "https://api.telegram.org/file/bot" + token;
     this.webAppUrl = "https://script.google.com/macros/s/" + webAppId + "/exec";
     this.devList = devList.split(",");
-    // this.authorizedUsersList = authorizedUsersList.split(",");
     this.activeUsers = getActiveUsersIds()
     this.handlers = {}
     UrlFetchApp.fetch(this.telegramUrl + "/setWebhook?url=" + this.webAppUrl);
 
     this.spreadsheetId = spreadsheetId;
     this.spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-    this.bankspreadsheetId = bankspreadsheetId;
-    this.bankspreadsheet = SpreadsheetApp.openById(bankspreadsheetId);
     this.received = null;
     this.sent = null;
     this.conversation = null;

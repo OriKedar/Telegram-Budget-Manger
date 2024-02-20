@@ -2,18 +2,16 @@ const BOT = new TelegramBot(
   ScriptProperties.getProperty("botToken"), // ask @BotFather on telegram for your botToken
   ScriptProperties.getProperty("webAppId"), // after deployment as webApp, AppScript will give you the webAppId
   ScriptProperties.getProperty("spreadsheetId"), // in order to work the TelegramBot object need a spreadsheet
-  ScriptProperties.getProperty("bankspreadsheetId"),
   ScriptProperties.getProperty("devList"), // a comma separated string with the telegramIds of the developers
-  getActiveUsersIds()
 );
 
-BOT.addHandler("/start", "Start your journey with the bot", "command", start);
+// BOT.addHandler("/start", "Start your journey with the bot", "command", start);
 BOT.addHandler("/thisWeek", "Get your weekly balance ", "commend", thisWeek);
 BOT.addHandler("/thisMonth", "Get your monthly balance ", "commend", thisMonth);
 BOT.addHandler("/help", "View all commands you can use", "command", help);
-BOT.addHandler("/tes", "Test new function", "command", test);
-BOT.addHandler("/removeKeys", "Remove test keyboard", "command", remove);
-BOT.addHandler("/register", "Send a register request", "conversation", {
+// BOT.addHandler("/tes", "Test new function", "command", test);
+// BOT.addHandler("/removeKeys", "Remove test keyboard", "command", remove);
+BOT.addHandler("/start", "Send a register request", "conversation", {
     entry: newUser,
     states: [
       {type: "addSsid", handler: addSs}

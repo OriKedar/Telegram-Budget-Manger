@@ -73,12 +73,12 @@ function getAllSsids(){
   return usersSsids
 }
 
-function isUserExists(user_id){
+function isUserExsists(user_id){
   let usersList = getAllUsersIds()
   return usersList.includes(user_id);
 }
 
-function isSsIdExists(ssid){
+function isSsIdExsists(ssid){
   let ssIds = getAllSsids()
   return ssIds.includes(ssid)
 }
