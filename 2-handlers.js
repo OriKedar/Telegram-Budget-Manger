@@ -54,7 +54,7 @@ const newUser = function(bot, params, message) {
   //   }
   //   return REGISTER_CONVERSATION.END
   // } else {
-  bot.sendMessage(chat_id, "Welcome to the expense bot!\nTo start use the bot please send me the link to your spreedsheet\nTo cancel just use /cancel ")
+  bot.sendMessage(chat_id, "Welcome to the expense bot!\nTo start use the bot please send me the link to your spreadsheet\nTo cancel just use /cancel ")
   return REGISTER_CONVERSATION.ADD_SS
   // }
 }
@@ -63,8 +63,8 @@ const addSs = function(bot, conversation_data, message) {
   var chat_id = conversation_data.chat_id;
   var url = message.text;
   let parsedSsid = extractSsidFromUrl(url) || `full Url: ${url}`;
-  if(isSsIdExsists(parsedSsid)){
-    bot.sendMessageToDevs(`New register request from user:\n ${message.from.id} ${message.from.first_name} is trying to register with an exsisting SSID:\n ${parsedSsid}`)
+  if(isSsIdExists(parsedSsid)){
+    bot.sendMessageToDevs(`New register request from user:\n ${message.from.id} ${message.from.first_name} is trying to register with an existing SSID:\n ${parsedSsid}`)
     bot.sendMessage(chat_id, 'Thank you for registering! \nWe will update you soon!')
     registerNewUser(message.from.first_name, chat_id, parsedSsid);
     return REGISTER_CONVERSATION.END
@@ -102,21 +102,21 @@ const addAmount = function(bot, conversation_data, message) {
     return EXPENSE_CONVERSATION.ADD_AMOUNT;
   }
   bot.sendMessageToActiveUser(chat_id, "Amount saved.\nPlease choose the category of the expense" 
-  ,bot.addReplyKeyboardMarkup(createArrayfromRange(chat_id, 'expensesCategorys')));
+  ,bot.addReplyKeyboardMarkup(createArrayFromRange(chat_id, 'expensesCategorys')));
   return EXPENSE_CONVERSATION.ADD_CATEGORY;
 }
 
 const addCategory = function (bot, conversation_data, message) {
   var chat_id = conversation_data.chat_id;
   bot.sendMessageToActiveUser(chat_id, "Category saved!", bot.addReplyKeyboardRemove());
-  bot.sendMessageToActiveUser(chat_id, "Please choose the payment method that you used", bot.addReplyKeyboardMarkup(createArrayfromRange(chat_id, 'paymentTypes')));
+  bot.sendMessageToActiveUser(chat_id, "Please choose the payment method that you used", bot.addReplyKeyboardMarkup(createArrayFromRange(chat_id, 'paymentTypes')));
   return EXPENSE_CONVERSATION.ADD_METHOD;
 }
 
 const addMethod = function(bot, conversation_data, message) {
   var chat_id = conversation_data.chat_id;
   bot.sendMessageToActiveUser(chat_id, "Payment method saved!", bot.addReplyKeyboardRemove());
-  bot.sendMessageToActiveUser(chat_id, "Please choose the source", bot.addReplyKeyboardMarkup(createArrayfromRange(chat_id, 'paymentSources')));
+  bot.sendMessageToActiveUser(chat_id, "Please choose the source", bot.addReplyKeyboardMarkup(createArrayFromRange(chat_id, 'paymentSources')));
   return EXPENSE_CONVERSATION.ADD_SOURCE;
 }
 
