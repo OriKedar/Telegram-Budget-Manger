@@ -356,7 +356,7 @@ class TelegramBot {
     if(this.isActiveUser(id)){
       this.sendMessage(id, text, keyboard)
     } else {
-      return this.sendMessage(id, "Unauthorized user!");
+      return this.sendMessage(id, "You are not active user\n Try to user /cancel and then /start to register to the service");
     }
   }
 
