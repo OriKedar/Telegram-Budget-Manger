@@ -13,9 +13,6 @@ const REGISTER_CONVERSATION = Object.freeze({
 });
 
 
-// const start = function(bot, params, message) {
-//   bot.sendMessageToActiveUser(message.chat.id, "Hi " + message.from.first_name + "!\nThis is the starting message from the bot, what do you want to do?\n/expense To add new expense \n/thisWeek To see this week expense and balance \n/thisMonth To see this month expense and balance\n/help To see all the commands available use");
-// }
 
 const help = function(bot, params, message) {
   var command_descriptions = "Hi " + message.from.first_name + "!\nThis is the list of commands you can use with this bot\n\n";
