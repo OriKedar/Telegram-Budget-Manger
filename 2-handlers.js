@@ -64,12 +64,26 @@ const addSs = function(bot, conversation_data, message) {
   var url = message.text;
   let parsedSsid = extractSsidFromUrl(url) || `full Url: ${url}`;
   if(isSsIdExists(parsedSsid)){
+        try {
+    registerNewUser(message.from.first_name, chat_id, parsedSsid);
+    } catch (e) {
+      Logger.log(e)
+      bot.sendMessageToDevs(`error while trying to submit new user \n${e}`);
+      bot.sendMessage(chat_id, 'We had a tecnical issue to hendle your request,\nplease try again later.')
+      return REGISTER_CONVERSATION.END
+    }
     bot.sendMessageToDevs(`New register request from user:\n ${message.from.id} ${message.from.first_name} is trying to register with an existing SSID:\n ${parsedSsid}`)
     bot.sendMessage(chat_id, 'Thank you for registering! \nWe will update you soon!')
-    registerNewUser(message.from.first_name, chat_id, parsedSsid);
     return REGISTER_CONVERSATION.END
   } else {
+    try {
     registerNewUser(message.from.first_name, chat_id, parsedSsid);
+    } catch (e) {
+      Logger.log(e)
+      bot.sendMessageToDevs(`error while trying to submit new user \n${e}`);
+      bot.sendMessage(chat_id, 'We had a tecnical issue to hendle your request,\nplease try again later.')
+      return REGISTER_CONVERSATION.END
+    }
     bot.sendMessage(chat_id, 'Thank you for registering, We will process your request and update you!')
     bot.sendMessageToDevs(`Hi Ori, new valid register from ${message.from.first_name} was added to list`)
 
@@ -135,7 +149,13 @@ const endExpenseConversation = function(bot, fullPayload, message) {
   var method = fullPayload.data.find(item => item.type === 'method')?.value || '';
   var source = fullPayload.data.find(item => item.type === 'source')?.value || '';
 
+  try {
   addNewExpenseRow(reason, amount, category, method, source, chat_id);
+  } catch (e) {
+    Logger.log(`new error while adding new expense ${e}`);
+    bot.sendMessageToDevs(`Error while submiting new expense in chat: ${chat_id}\n ${e} `);
+    return bot.sendMessageToActiveUser(chat_id, 'We have a tecnical issue to save you expense\nPlease try again.')
+  }
   bot.sendMessageToActiveUser(chat_id, `Thank you for adding expense for ${reason}`);
 }
 
