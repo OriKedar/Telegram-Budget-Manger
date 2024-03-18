@@ -65,6 +65,27 @@ function sumRows(filteredRows){
   return sum.toFixed(2)
 }
 
+function getRowsByDate(user_id, start_date){
+  var data = getSheetByName(user_id, 'Raw');
+
+  var today = new Date();
+  var filteredRows = []
+
+
+  for (var i = 0; i < data.length; i++) {
+    var rowDate = data[i][0];
+
+    if (isValidDate(data[i][0])) {
+      if (rowDate >= start_date && rowDate <= today) {
+        filteredRows.push(data[i]);
+      }
+    } else {
+      console.warn('Invalid date:', data[i][0]);
+    }
+  }
+  return filteredRows
+}
+
 function getRowsFromLastMonth(user_id) {
   var data = getSheetDataByName(user_id, 'Raw');
 
@@ -108,17 +129,6 @@ function addNewExpenseRow(reason, amount, category, method, source, user_id){
   let date = new Date();
   let newRow = [date, reason, parseFloat(amount), category, method, source]; 
   sheet.appendRow(newRow);
-}
-
-function getWeekllyStatics(user_id){
-  const budget = getMonthlyBudget(user_id) / 4; 
-  const totalWeekSpent = roundToTwo(sumRows(getRowsFromLastWeek(user_id)));
-
-  if (budget - totalWeekSpent >= 0){
-    return `Your weekly budget is ${budget} EUR \nThis week you already used: ${totalWeekSpent} EUR \nYou still have ${roundToTwo(budget - totalWeekSpent)} EUR to spent!`
-  } else if (budget - totalWeekSpent < 0){
-    return `Oh no... \nYour weekly budget is ${budget} EUR \nThis week you already used: ${totalWeekSpent} EUR \nYou exceed by ${roundToTwo(totalWeekSpent - budget)} EUR`
-  }
 }
 
 function roundToTwo(num) {

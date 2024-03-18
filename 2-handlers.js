@@ -24,16 +24,11 @@ const help = function(bot, params, message) {
 }
 
 const thisWeek = function(bot, params, message) {
-  const totalWeekSpent = sumRows(getRowsFromLastWeek(message.chat.id));
-  const weeklyBudget = getMonthlyBudget(message.chat.id) / 4;
-  return bot.sendMessageToActiveUser(message.chat.id, getWeekllyStatics(message.chat.id))
-  // bot.sendMessageToActiveUser(message.chat.id, `Hi ${message.from.first_name} Your weekly budget is ${weeklyBudget} EUR \nThis week you already used: ${totalWeekSpent} EUR \nYou still have ${weeklyBudget - totalWeekSpent} EUR to spent!`)
+  return bot.sendMessageToActiveUser(message.chat.id, getWeekllyUsage(message.chat.id))
   }
 
 const thisMonth = function(bot, params, message) {
-  const totalMonthSpent = sumRows(getRowsFromLastMonth(message.chat.id));
-  const monthlyBudget = getMonthlyBudget(message.chat.id);
-  bot.sendMessageToActiveUser(message.chat.id, `This month you spent: ${totalMonthSpent} EUR \nYour monthly budget is ${monthlyBudget} EUR \nYou still have ${monthlyBudget - totalMonthSpent} EUR to spent!`);
+  return bot.sendMessageToActiveUser(message.chat.id, getMonthlyUsage(message.chat.id));
 }
 
 const cancel = function(bot, conversation_data, message) {
