@@ -109,8 +109,9 @@ function simulateTelegramMessage(text) {
 
 function testFunction() {
   var contents = simulateTelegramMessage("/help");
-  //Logger.log(JSON.stringify(contents, null, 2));
+  Logger.log(JSON.stringify(contents, null, 2));
   BOT.dispatcher(contents);
+  // Bot.sendMessage(645418933, "hello!")
 }
 
 function clearMessageSheet() {

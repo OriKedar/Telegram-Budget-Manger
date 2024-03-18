@@ -110,6 +110,21 @@ function addNewExpenseRow(reason, amount, category, method, source, user_id){
   sheet.appendRow(newRow);
 }
 
+function getWeekllyStatics(user_id){
+  const budget = getMonthlyBudget(user_id) / 4; 
+  const totalWeekSpent = roundToTwo(sumRows(getRowsFromLastWeek(user_id)));
+
+  if (budget - totalWeekSpent >= 0){
+    return `Your weekly budget is ${budget} EUR \nThis week you already used: ${totalWeekSpent} EUR \nYou still have ${roundToTwo(budget - totalWeekSpent)} EUR to spent!`
+  } else if (budget - totalWeekSpent < 0){
+    return `Oh no... \nYour weekly budget is ${budget} EUR \nThis week you already used: ${totalWeekSpent} EUR \nYou exceed by ${roundToTwo(totalWeekSpent - budget)} EUR`
+  }
+}
+
+function roundToTwo(num) {
+    return +(Math.round(num + "e+2")  + "e-2");
+}
+
 function addMonthlyPayments(user_id){
     let fullSheet = getSheetDataByName(user_id, 'Monthly');
     for (const element of fullSheet.slice(1)){
@@ -123,5 +138,5 @@ function monthlyPaymentToUniqueUsers(){
 }
 
 function testSum() {
-getRowsFromLastWeek(645418933)
+getWeekllyStatics(645418933)
 }
