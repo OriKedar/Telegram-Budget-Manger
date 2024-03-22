@@ -13,6 +13,7 @@ function getWeekllyUsage(user_id){
 function getMonthlyUsage(user_id){
   const budget = getMonthlyBudget(user_id);
   const totalMonthSpent = roundToTwo(sumRows(getRowsFromLastMonth(user_id)));
+  const userCurrency = getUserCurrency(user_id);
 
   if (budget - totalMonthSpent >= 0){
     return `Your monthly budget is ${budget} ${userCurrency}, you used ${totalMonthSpent} ${userCurrency} \nYou still have ${roundToTwo(budget - totalMonthSpent)} ${userCurrency} to Spent!`
