@@ -14,6 +14,12 @@ function getAllUsersData () {
   return usersList
 }
 
+function openUsersSpredSheet(){
+  var spredsheetId = getIdProperty()
+  const ss = SpreadsheetApp.openById(spredsheetId);
+  return ss.getSheetByName('users');
+}
+
 function filterActiveUsers(usersArray){
   let activeUsers = usersArray.filter(arr => {
     if(arr[3]){
@@ -92,5 +98,20 @@ function updateActiveUsersList(){
   BOT.updateActiveUsersList()
 }
 
+function getUserData(user_id){
+  var usersSheet = openUsersSpredSheet();
+  return row = usersSheet.createTextFinder(user_id).findNext().getRowIndex();
+}
+
+function getIdProperty() {
+  return ScriptProperties.getProperty('spreadsheetId');
+}
+
+function getUserCurrency(user_id){
+  let userRow = getUserData(user_id);
+  return openUsersSpredSheet().getDataRange().getCell(userRow, 5).getValue();
+}
+
 function testusers () {
+
 }
